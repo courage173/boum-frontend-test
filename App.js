@@ -1,13 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import NewsListPage from "./src/pages/NewsListPage";
+import { Provider } from "react-redux";
+import configureStore from "./src/redux/store";
+import Navigation from "./src/navigation/MainAppStack";
+import { RootSiblingParent } from "react-native-root-siblings";
 
+const store = configureStore();
 export default function App() {
   return (
-    <View style={styles.container}>
-      <NewsListPage />
-    </View>
+    <Provider store={store}>
+      <RootSiblingParent>
+        <Navigation />
+      </RootSiblingParent>
+    </Provider>
   );
 }
 

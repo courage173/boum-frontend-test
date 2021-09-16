@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import fire from "../../assets/fire.png";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
-import topImage from "../../assets/user2.png";
+import noImage from "../../assets/no-image-available.jpeg";
 
-const NewsCard = () => {
+const NewsCard = ({ article, handlePress, handleLike }) => {
   return (
-    <View style={{ marginTop: 20 }}>
+    <Pressable style={{ marginTop: 20 }} onPress={() => handlePress(article)}>
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text
@@ -29,12 +29,23 @@ const NewsCard = () => {
           />
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <MaterialCommunityIcons
-            name="heart-multiple-outline"
-            size={30}
-            color="#631a63"
-            style={{ opacity: 0.5, marginRight: 10 }}
-          />
+          <Pressable onPress={() => handleLike(article.id)}>
+            {article.liked ? (
+              <MaterialCommunityIcons
+                name="heart-multiple"
+                size={30}
+                color="#631a63"
+                style={{ opacity: 0.5, marginRight: 10 }}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="heart-multiple-outline"
+                size={30}
+                color="#631a63"
+                style={{ opacity: 0.5, marginRight: 10 }}
+              />
+            )}
+          </Pressable>
           <Text
             style={{
               marginRight: 10,
@@ -42,7 +53,7 @@ const NewsCard = () => {
               opacity: 0.6,
             }}
           >
-            235
+            {article.likedCount}
           </Text>
           <Entypo name="dots-three-horizontal" size={24} color="#631a63" />
         </View>
@@ -63,7 +74,7 @@ const NewsCard = () => {
               lineHeight: 30,
             }}
           >
-            Business Insentive from Minister of tech
+            {article.title}
           </Text>
           <View
             style={{
@@ -133,17 +144,28 @@ const NewsCard = () => {
           </View>
         </View>
         <View>
-          <Image
-            source={topImage}
-            style={{
-              height: 135,
-              width: 130,
-              borderRadius: 10,
-            }}
-          />
+          {article.urlToImage ? (
+            <Image
+              source={{ uri: article.urlToImage }}
+              style={{
+                height: 135,
+                width: 130,
+                borderRadius: 10,
+              }}
+            />
+          ) : (
+            <Image
+              source={noImage}
+              style={{
+                height: 135,
+                width: 130,
+                borderRadius: 10,
+              }}
+            />
+          )}
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
